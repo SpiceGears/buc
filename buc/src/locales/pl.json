@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "Wybierz swój język",
+  "chooseAlliance": "Wybierz sojusz",
+  "blueAlliance": "Niebieski sojusz",
+  "redAlliance": "Czerwony sojusz",
+  "ecosystem": "Ekosystem {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "Tryb dodawania aktywny",
+  "subtractMode": "Tryb odejmowania aktywny"
+}

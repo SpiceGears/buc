@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "अपनी भाषा चुनें",
+  "chooseAlliance": "अपना गठबंधन चुनें",
+  "blueAlliance": "नीला गठबंधन",
+  "redAlliance": "लाल गठबंधन",
+  "ecosystem": "पारिस्थितिकी तंत्र {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "जोड़ मोड सक्रिय",
+  "subtractMode": "घटाएं मोड सक्रिय"
+}

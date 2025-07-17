@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "আপনার ভাষা নির্বাচন করুন",
+  "chooseAlliance": "আপনার জোট নির্বাচন করুন",
+  "blueAlliance": "নীল জোট",
+  "redAlliance": "লাল জোট",
+  "ecosystem": "পরিবেশ {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "যোগ মোড সক্রিয়",
+  "subtractMode": "বিয়োগ মোড সক্রিয়"
+}

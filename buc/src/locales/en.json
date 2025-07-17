@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "Choose Your Language",
+  "chooseAlliance": "Choose Your Alliance",
+  "blueAlliance": "Blue Alliance",
+  "redAlliance": "Red Alliance",
+  "ecosystem": "Ecosystem {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "Add mode active",
+  "subtractMode": "Subtract mode active"
+}

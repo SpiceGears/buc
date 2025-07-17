@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "اختر لغتك",
+  "chooseAlliance": "اختر تحالفك",
+  "blueAlliance": "التحالف الأزرق",
+  "redAlliance": "التحالف الأحمر",
+  "ecosystem": "النظام البيئي {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "وضع الإضافة نشط",
+  "subtractMode": "وضع الطرح نشط"
+}

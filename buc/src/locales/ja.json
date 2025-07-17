@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "言語を選択してください",
+  "chooseAlliance": "同盟を選択してください",
+  "blueAlliance": "青の同盟",
+  "redAlliance": "赤の同盟",
+  "ecosystem": "エコシステム {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "加算モードが有効です",
+  "subtractMode": "減算モードが有効です"
+}

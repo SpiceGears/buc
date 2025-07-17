@@ -1,0 +1,11 @@
+{
+  "chooseLanguage": "选择您的语言",
+  "chooseAlliance": "选择您的联盟",
+  "blueAlliance": "蓝色联盟",
+  "redAlliance": "红色联盟",
+  "ecosystem": "生态系统 {{num}}: {{count}}",
+  "increment": "+1",
+  "decrement": "-1",
+  "addMode": "添加模式激活",
+  "subtractMode": "减法模式激活"
+}
