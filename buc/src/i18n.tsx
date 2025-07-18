@@ -32,27 +32,46 @@ export type Lang =
   | "pt"
   | "zh";
 
-type Resources = typeof en | typeof es | typeof ar | typeof bn | typeof de | typeof fr | typeof hi | typeof ja | typeof pl | typeof pt | typeof zh;
+// Define a type for the structure of your translation resources
+type TranslationResources = typeof en; // Assuming all translation files have the same structure as 'en.json'
 
-const resources: Record<Lang, Resources> = {
-  en, es, ar, bn, de, fr, hi, ja, pl, pt, zh
+// Use a Mapped Type to ensure 'resources' values conform to TranslationResources
+type Resources = {
+  [K in Lang]: TranslationResources;
+};
+
+const resources: Resources = {
+  en,
+  es,
+  ar,
+  bn,
+  de,
+  fr,
+  hi,
+  ja,
+  pl,
+  pt,
+  zh,
 };
 
 interface I18nContextProps {
   lang: Lang;
   setLang: (l: Lang) => void;
-  t: (key: keyof Resources, params?: Record<string, any>) => string;
+  // FIX: Replaced 'any' with 'string | number' or a more specific type if values are limited
+  t: (key: keyof TranslationResources, params?: Record<string, string | number>) => string;
 }
 
 const I18nContext = createContext<I18nContextProps | undefined>(undefined);
 
-export function I18nProvider({ children }: PropsWithChildren<{}>) {
+// FIX: Replaced PropsWithChildren<{}> with PropsWithChildren
+export function I18nProvider({ children }: PropsWithChildren) {
   const [lang, setLangState] = useState<Lang>("en");
 
   // on mount, read saved lang if it exists in `resources`
   useEffect(() => {
     const stored = window.localStorage.getItem("lang");
-    if (stored && (resources as any)[stored]) {
+    // FIX: Safely check if stored language is a valid key in resources
+    if (stored && Object.keys(resources).includes(stored)) {
       setLangState(stored as Lang);
     }
   }, []);
@@ -62,14 +81,12 @@ export function I18nProvider({ children }: PropsWithChildren<{}>) {
     setLangState(l);
   };
 
-  const t = (key: keyof Resources, params?: Record<string, any>) => {
-    let str = resources[lang][key] as string;
+  // FIX: Replaced 'any' with 'string | number' for param values
+  const t = (key: keyof TranslationResources, params?: Record<string, string | number>) => {
+    let str = resources[lang][key] as string; // Assert as string, as JSON values can be boolean/number if not careful
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
-        str = str.replace(
-          new RegExp(`{{\\s*${k}\\s*}}`, "g"),
-          String(v)
-        );
+        str = str.replace(new RegExp(`{{\\s*${k}\\s*}}`, "g"), String(v));
       });
     }
     return str;

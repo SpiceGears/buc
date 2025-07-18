@@ -34,7 +34,7 @@ export default function MainPage() {
   const ALLIANCES = [
     {
       code: "blue",
-      labelKey: "blueAlliance",
+      labelKey: "blueAlliance", // This needs to be a keyof Resources from i18n
       classes: `
         px-6 py-3 text-lg text-white
         bg-blue-500 rounded-lg shadow
@@ -44,7 +44,7 @@ export default function MainPage() {
     },
     {
       code: "red",
-      labelKey: "redAlliance",
+      labelKey: "redAlliance", // This needs to be a keyof Resources from i18n
       classes: `
         px-6 py-3 text-lg text-white
         bg-red-500 rounded-lg shadow
@@ -52,7 +52,7 @@ export default function MainPage() {
         focus:ring-2 focus:ring-red-500
       `.trim(),
     },
-  ];
+  ] as const; // Added 'as const' to infer literal types for 'code' and 'labelKey'
 
   const changeLang = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const code = e.target.value as Lang;
@@ -63,8 +63,8 @@ export default function MainPage() {
     window.localStorage.setItem("alliance", c);
     setAlliance(c);
     // reset counters/mode if you like:
-    // setCounts([0,0,0]);
-    // setSubtractMode(false);
+    setCounts([0,0,0]);
+    setSubtractMode(false);
   };
 
   const handleSquare = (i: number) =>
@@ -79,16 +79,15 @@ export default function MainPage() {
       return next;
     });
 
-      function getSquareClasses(count: number) {
+
+  function getSquareClasses(_count: number) {
     if (subtractMode) {
       return "bg-black hover:bg-gray-800 focus:ring-black";
     }
-    // always green in add mode here
     return "bg-green-500 hover:bg-green-600 focus:ring-green-500";
   }
 
   const enterRemoveMode = () => setSubtractMode(true);
-
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8 flex flex-col items-center">
@@ -105,7 +104,7 @@ export default function MainPage() {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2v20"
+            d="M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2v2v20"
           />
         </svg>
         <select
@@ -133,90 +132,93 @@ export default function MainPage() {
         {ALLIANCES.map(({ code, labelKey, classes }) => (
           <button
             key={code}
-            onClick={() => chooseAlliance(code as "red" | "blue")}
-            className={classes + (alliance === code ? " ring-2 ring-offset-2 ring-indigo-500" : "")}
+            onClick={() => chooseAlliance(code)} // 'code' is already typed correctly due to 'as const'
+            className={
+              classes +
+              (alliance === code ? " ring-2 ring-offset-2 ring-indigo-500" : "")
+            }
           >
-            {t(labelKey as any)}
+            {t(labelKey)} {/* FIX: Removed 'as any' */}
           </button>
         ))}
       </div>
 
       {/* Counters */}
       <div className="mt-8 flex items-center space-x-6">
-  {alliance === "blue" ? (
-    <>
-      {/* Left column (blue): counters[0] & counters[1] */}
-      <div className="flex flex-col space-y-6">
-        {[0, 1].map((i) => (
-          <button
-            key={i}
-            onClick={() => handleSquare(i)}
-            className={`
-              w-24 h-24 flex items-center justify-center
-              text-2xl font-bold text-white rounded-lg
-              focus:outline-none focus:ring-2 transition-colors
-              ${getSquareClasses(counts[i])}
-            `}
-            aria-label={subtractMode ? t("decrement") : t("increment")}
-          >
-            {counts[i]}
-          </button>
-        ))}
-      </div>
+        {alliance === "blue" ? (
+          <>
+            {/* Left column (blue): counters[0] & counters[1] */}
+            <div className="flex flex-col space-y-6">
+              {[0, 1].map((i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSquare(i)}
+                  className={`
+                    w-24 h-24 flex items-center justify-center
+                    text-2xl font-bold text-white rounded-lg
+                    focus:outline-none focus:ring-2 transition-colors
+                    ${getSquareClasses(counts[i])}
+                  `}
+                  aria-label={subtractMode ? t("decrement") : t("increment")}
+                >
+                  {counts[i]}
+                </button>
+              ))}
+            </div>
 
-      {/* Right single (blue): counter[2] */}
-      <button
-        onClick={() => handleSquare(2)}
-        className={`
-          w-24 h-24 flex items-center justify-center
-          text-2xl font-bold text-white rounded-lg
-          focus:outline-none focus:ring-2 transition-colors
-          ${getSquareClasses(counts[2])}
-        `}
-        aria-label={subtractMode ? t("decrement") : t("increment")}
-      >
-        {counts[2]}
-      </button>
-    </>
-  ) : (
-    <>
-      {/* Left single (red), centered vertically: counter[0] */}
-      <div className="flex-1 flex items-center justify-center">
-        <button
-          onClick={() => handleSquare(0)}
-          className={`
-            w-24 h-24 flex items-center justify-center
-            text-2xl font-bold text-white rounded-lg
-            focus:outline-none focus:ring-2 transition-colors
-            ${getSquareClasses(counts[0])}
-          `}
-          aria-label={subtractMode ? t("decrement") : t("increment")}
-        >
-          {counts[0]}
-        </button>
-      </div>
+            {/* Right single (blue): counter[2] */}
+            <button
+              onClick={() => handleSquare(2)}
+              className={`
+                w-24 h-24 flex items-center justify-center
+                text-2xl font-bold text-white rounded-lg
+                focus:outline-none focus:ring-2 transition-colors
+                ${getSquareClasses(counts[2])}
+              `}
+              aria-label={subtractMode ? t("decrement") : t("increment")}
+            >
+              {counts[2]}
+            </button>
+          </>
+        ) : (
+          <>
+            {/* Left single (red), centered vertically: counter[0] */}
+            <div className="flex-1 flex items-center justify-center">
+              <button
+                onClick={() => handleSquare(0)}
+                className={`
+                  w-24 h-24 flex items-center justify-center
+                  text-2xl font-bold text-white rounded-lg
+                  focus:outline-none focus:ring-2 transition-colors
+                  ${getSquareClasses(counts[0])}
+                `}
+                aria-label={subtractMode ? t("decrement") : t("increment")}
+              >
+                {counts[0]}
+              </button>
+            </div>
 
-      {/* Right column (red): counters[1] & counters[2] */}
-      <div className="flex flex-col space-y-6">
-        {[1, 2].map((i) => (
-          <button
-            key={i}
-            onClick={() => handleSquare(i)}
-            className={`
-              w-24 h-24 flex items-center justify-center
-              text-2xl font-bold text-white rounded-lg
-              focus:outline-none focus:ring-2 transition-colors
-              ${getSquareClasses(counts[i])}
-            `}
-            aria-label={subtractMode ? t("decrement") : t("increment")}
-          >
-            {counts[i]}
-          </button>
-        ))}
+            {/* Right column (red): counters[1] & counters[2] */}
+            <div className="flex flex-col space-y-6">
+              {[1, 2].map((i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSquare(i)}
+                  className={`
+                    w-24 h-24 flex items-center justify-center
+                    text-2xl font-bold text-white rounded-lg
+                    focus:outline-none focus:ring-2 transition-colors
+                    ${getSquareClasses(counts[i])}
+                  `}
+                  aria-label={subtractMode ? t("decrement") : t("increment")}
+                >
+                  {counts[i]}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-    </>
-  )}
-</div>
 
       {/* Remove Mode Toggle */}
       <button
@@ -227,9 +229,11 @@ export default function MainPage() {
           text-white text-3xl font-bold
           focus:outline-none focus:ring-2
           transition-colors
-          ${subtractMode
-            ? "bg-gray-500 hover:bg-gray-600 focus:ring-gray-500"
-            : "bg-red-500 hover:bg-red-600 focus:ring-red-500"}
+          ${
+            subtractMode
+              ? "bg-gray-500 hover:bg-gray-600 focus:ring-gray-500"
+              : "bg-red-500 hover:bg-red-600 focus:ring-red-500"
+          }
         `}
         aria-pressed={subtractMode}
         aria-label="Enter subtract mode"
