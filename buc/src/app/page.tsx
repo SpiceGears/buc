@@ -243,6 +243,8 @@ export default function MainPage() {
       <p className="mt-2 text-sm text-gray-600">
         {subtractMode ? t("subtractMode") : t("addMode")}
       </p>
+      <img src="logo.png" alt="Logo" className="w-24 h-24 mb-6" />
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">Team Poland</h1>
     </div>
   );
 }
